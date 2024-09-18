@@ -101,24 +101,24 @@ jobs:
         make -C mpy-cross
         export IDF_TARGET=esp32
         cd ports/esp32/
-        cp ../../../st7789_mpy/fonts/bitmap/vga1_16x16.py modules
-        cp ../../../st7789_mpy/fonts/truetype/NotoSans_32.py modules
-        cp ../../../st7789_mpy/fonts/vector/scripts.py modules
+        cp ${GITHUB_WORKSPACE}/st7789_mpy/fonts/bitmap/vga1_16x16.py modules
+        cp ${GITHUB_WORKSPACE}/st7789_mpy/fonts/truetype/NotoSans_32.py modules
+        cp ${GITHUB_WORKSPACE}/st7789_mpy/fonts/vector/scripts.py modules
         idf.py \
           -D MICROPY_BOARD=ESP32_GENERIC \
           -D MICROPY_BOARD_DIR="$GITHUB_WORKSPACE/micropython/ports/esp32/boards/" \
           -D USER_C_MODULES="$GITHUB_WORKSPACE/micropython.cmake" \
-          -D MICROPY_FROZEN_MANIFEST="" \
-          -D FROZEN_MPY_DIR=$UPYDIR/modules \
+          -D FROZEN_MPY_DIR="$UPYDIR/modules" \
           -B build-ESP32_GENERIC build
+      # -D MICROPY_FROZEN_MANIFEST="" \
     
     - name: Move binaries with S3LCD + SmartConfig
       if: success() || failure()
       run: |
         mkdir -p ./artifacts
-        cp micropython/ports/esp32/build-ESP32_GENERIC/micropython.bin ./artifacts/micropython.bin || true
-        cp micropython/ports/esp32/build-ESP32_GENERIC/bootloader/bootloader.bin ./artifacts/bootloader.bin || true
-        cp micropython/ports/esp32/build-ESP32_GENERIC/partition_table/partition-table.bin ./artifacts/partition-table.bin || true
+        cp ${GITHUB_WORKSPACE}micropython/ports/esp32/build-ESP32_GENERIC/micropython.bin ./artifacts/micropython.bin || true
+        cp ${GITHUB_WORKSPACE}micropython/ports/esp32/build-ESP32_GENERIC/bootloader/bootloader.bin ./artifacts/bootloader.bin || true
+        cp ${GITHUB_WORKSPACE}micropython/ports/esp32/build-ESP32_GENERIC/partition_table/partition-table.bin ./artifacts/partition-table.bin || true
     
     - name: Generate Tag
       id: tag
