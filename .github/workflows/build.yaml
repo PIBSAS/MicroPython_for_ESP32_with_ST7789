@@ -1,0 +1,134 @@
+name: ESP32
+
+permissions:
+  contents: write
+
+on:
+  push:
+    tags:
+     - 'v*'
+  schedule:
+     - cron: '0 0 * * 0'
+  
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clonar el repositorio
+      uses: actions/checkout@v3
+      
+    - name: Clonar Micropython
+      run: git clone --recurse-submodules https://github.com/micropython/micropython.git
+    
+    - name: Clonar st7789
+      run: git clone https://github.com/russhughes/st7789_mpy.git
+
+    
+    #- name: Copy tdt_config and some fonts like frozen modules
+     # run: |
+      # cp "$GITHUB_WORKSPACE/s3lcd/examples/configs/t-display-s3/tft_config.py" "$GITHUB_WORKSPACE/s3lcd/modules/"
+       #cp "$GITHUB_WORKSPACE/s3lcd/examples/configs/t-display-s3/tft_buttons.py" "$GITHUB_WORKSPACE/s3lcd/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/examples/chango/chango_16.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/examples/chango/chango_32.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/examples/chango/chango_64.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/astrol.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/gotheng.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/greekc.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/italict.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/lowmat.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/marker.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/music.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/romancs.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/bitmap/vga1_8x8.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/bitmap/vga1_8x16.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/bitmap/vga1_16x16.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/bitmap/vga1_16x32.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/bitmap/vga1_bold_16x16.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/bitmap/vga1_bold_16x32.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/truetype/NotoSerif_32.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/examples/chango/chango.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/truetype/NotoSans_32.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/truetype/NotoSansMono_32.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/bitmap/vga2_8x8.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/bitmap/vga2_8x16.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/bitmap/vga2_16x16.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/bitmap/vga2_16x32.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/bitmap/vga2_bold_16x16.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/bitmap/vga2_bold_16x32.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/cyrilc.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/gothger.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/gothita.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/greekcs.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/greekp.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/greeks.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/italcc.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/italiccs.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/meteo.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/romanc.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/romand.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/romanp.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/romans.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/romant.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/scriptc.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/scripts.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/symbol.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      # cp $GITHUB_WORKSPACE/s3lcd/fonts/vector/uppmat.py "$GITHUB_WORKSPACE/micropython/ports/rp2/modules/"
+      
+    - name: Instalar dependencias
+      run: |
+       sudo apt-get update
+       sudo apt-get install -y build-essential git wget flex bison gperf pkg-config python3 python3-pip python3-venv cmake ninja-build ccache libffi-dev libssl-dev dfu-util libusb-1.0-0
+
+    - name: Clonar ESP-IDF
+      run: |
+        mkdir -p esp
+        cd esp
+        git clone -b v5.2.2 --recursive https://github.com/espressif/esp-idf.git
+        cd esp-idf/tools
+        python3 idf_tools.py install cmake
+        cd ..
+        ./install.sh esp32
+        cd
+        
+    - name: Compile with St7789
+      continue-on-error: true
+      run: |
+        source esp/esp-idf/export.sh
+        cd micropython/
+        make -C mpy-cross
+        export IDF_TARGET=esp32
+        cd ports/esp32/
+        cp ../../../st7789_mpy/fonts/bitmap/vga1_16x16.py modules
+        cp ../../../st7789_mpy/fonts/truetype/NotoSans_32.py modules
+        cp ../../../st7789_mpy/fonts/vector/scripts.py modules
+        idf.py \
+          -D MICROPY_BOARD=ESP32_GENERIC \
+          -D MICROPY_BOARD_DIR="$GITHUB_WORKSPACE/micropython/ports/esp32/boards/" \
+          -D USER_C_MODULES="$GITHUB_WORKSPACE/micropython.cmake" \
+          -D MICROPY_FROZEN_MANIFEST="" \
+          -D FROZEN_MPY_DIR=$UPYDIR/modules \
+          -B build-ESP32_GENERIC build
+    
+    - name: Move binaries with S3LCD + SmartConfig
+      if: success() || failure()
+      run: |
+        mkdir -p ./artifacts
+        cp micropython/ports/esp32/build-ESP32_GENERIC/micropython.bin ./artifacts/micropython.bin || true
+        cp micropython/ports/esp32/build-ESP32_GENERIC/bootloader/bootloader.bin ./artifacts/bootloader.bin || true
+        cp micropython/ports/esp32/build-ESP32_GENERIC/partition_table/partition-table.bin ./artifacts/partition-table.bin || true
+    
+    - name: Generate Tag
+      id: tag
+      run: echo "TAG_NAME=release-$(date +'%Y%m%d-%H%M')" >> $GITHUB_ENV
+      
+    - name: Create Release
+      uses: marvinpinto/action-automatic-releases@latest
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: false
+        automatic_release_tag: ${{ env.TAG_NAME }}  # Usa el nombre del tag generado
+        title: "Release for version ${{ env.TAG_NAME }}"
+        files: ./artifacts/*
