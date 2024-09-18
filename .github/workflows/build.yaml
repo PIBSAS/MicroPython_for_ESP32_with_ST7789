@@ -56,17 +56,17 @@ jobs:
         idf.py \
           -D MICROPY_BOARD_DIR="$GITHUB_WORKSPACE/micropython/ports/esp32/boards/" \
           -D USER_C_MODULES="$GITHUB_WORKSPACE/micropython.cmake" \
+          -D MICROPY_FROZEN_MANIFEST="" \
           -D FROZEN_MPY_DIR="$UPYDIR/modules" \
           -B build
-      # -D MICROPY_FROZEN_MANIFEST="" \
     
     - name: Move binaries ST7789
      # if: success() || failure()
       run: |
         mkdir -p ./artifacts
-        cp ${GITHUB_WORKSPACE}micropython/ports/esp32/build-ESP32_GENERIC/micropython.bin ./artifacts/
-        cp ${GITHUB_WORKSPACE}micropython/ports/esp32/build-ESP32_GENERIC/bootloader/bootloader.bin ./artifacts/
-        cp ${GITHUB_WORKSPACE}micropython/ports/esp32/build-ESP32_GENERIC/partition_table/partition-table.bin ./artifacts/
+        cp ${GITHUB_WORKSPACE}micropython/ports/esp32/build/micropython.bin ./artifacts/
+        cp ${GITHUB_WORKSPACE}micropython/ports/esp32/build/bootloader/bootloader.bin ./artifacts/
+        cp ${GITHUB_WORKSPACE}micropython/ports/esp32/build/partition_table/partition-table.bin ./artifacts/
     
     - name: Generate Tag
       id: tag
