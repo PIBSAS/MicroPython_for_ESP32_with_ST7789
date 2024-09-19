@@ -65,7 +65,7 @@ jobs:
      # if: success() || failure()
       run: |
         mkdir -p ./artifacts
-        cp ${GITHUB_WORKSPACE}/micropython/ports/esp32/build/firmware.bin ./artifacts/
+        cp ${GITHUB_WORKSPACE}/micropython/ports/esp32/build/micropython.bin ./artifacts/
         cp ${GITHUB_WORKSPACE}/micropython/ports/esp32/build/bootloader/bootloader.bin ./artifacts/
         cp ${GITHUB_WORKSPACE}/micropython/ports/esp32/build/partition_table/partition-table.bin ./artifacts/
     
