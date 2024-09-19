@@ -53,12 +53,13 @@ jobs:
         cp ${GITHUB_WORKSPACE}/st7789_mpy/fonts/bitmap/vga1_16x16.py modules
         cp ${GITHUB_WORKSPACE}/st7789_mpy/fonts/truetype/NotoSans_32.py modules
         cp ${GITHUB_WORKSPACE}/st7789_mpy/fonts/vector/scripts.py modules
-        idf.py \
-          -D MICROPY_BOARD_DIR="$GITHUB_WORKSPACE/micropython/ports/esp32/boards/" \
-          -D USER_C_MODULES="$GITHUB_WORKSPACE/micropython.cmake" \
-          -D MICROPY_FROZEN_MANIFEST="" \
-          -D FROZEN_MPY_DIR="$UPYDIR/modules" \
-          -B build
+        idf.py -v build
+        
+     #  -D MICROPY_BOARD_DIR="$GITHUB_WORKSPACE/micropython/ports/esp32/boards/" \
+       #   -D USER_C_MODULES="$GITHUB_WORKSPACE/micropython.cmake" \
+        #  -D MICROPY_FROZEN_MANIFEST="" \
+         # -D FROZEN_MPY_DIR="$UPYDIR/modules" \
+          #-B build
     
     - name: Move binaries ST7789
      # if: success() || failure()
