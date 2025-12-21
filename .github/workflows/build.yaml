@@ -1,4 +1,4 @@
-name: ESP32
+name: ESP32 with ST7789
 
 permissions:
   contents: write
@@ -8,7 +8,7 @@ on:
     tags:
      - 'v*'
   schedule:
-     - cron: '0 0 * * 0'
+     - cron: '0 0 1 * *'
   
   workflow_dispatch:
 
